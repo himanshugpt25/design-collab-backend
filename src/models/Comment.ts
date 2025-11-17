@@ -7,6 +7,7 @@ export interface CommentMention {
 
 export interface CommentDocument extends Document {
   designId: Types.ObjectId;
+  authorId: string;
   authorName: string;
   text: string;
   mentions: CommentMention[];
@@ -25,6 +26,7 @@ const mentionSchema = new Schema<CommentMention>(
 const commentSchema = new Schema<CommentDocument>(
   {
     designId: { type: Schema.Types.ObjectId, ref: 'Design', required: true },
+    authorId: { type: String, required: true },
     authorName: { type: String, required: true },
     text: { type: String, required: true },
     mentions: { type: [mentionSchema], default: [] },

@@ -2,6 +2,7 @@ import { Router } from 'express';
 import exampleRoutes from './example.routes';
 import designsRoutes from './designs.routes';
 import commentsRoutes from './comments.routes';
+import authRoutes from './auth.routes';
 
 const router = Router();
 
@@ -9,6 +10,7 @@ const router = Router();
 router.use('/examples', exampleRoutes);
 router.use('/designs', designsRoutes);
 router.use('/designs/:designId/comments', commentsRoutes);
+router.use('/auth', authRoutes);
 
 // Add more routes here as needed
 // router.use('/users', userRoutes);

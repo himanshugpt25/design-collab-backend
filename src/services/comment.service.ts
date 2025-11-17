@@ -18,6 +18,7 @@ const extractMentions = (text: string): CommentMention[] => {
 const mapCommentDocument = (doc: CommentDocument): Comment => ({
   _id: doc.id,
   designId: doc.designId.toString(),
+  authorId: doc.authorId,
   authorName: doc.authorName,
   text: doc.text,
   mentions: doc.mentions,
@@ -33,7 +34,7 @@ export const listCommentsByDesign = async (designId: string): Promise<Comment[]>
 
 export const createCommentForDesign = async (
   designId: string,
-  payload: CommentCreateInput
+  payload: CommentCreateInput & { authorId: string; authorName: string }
 ): Promise<Comment> => {
   const mentions = extractMentions(payload.text);
 

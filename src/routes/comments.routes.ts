@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { asyncHandler } from '../middleware/asyncHandler';
+import { authenticate } from '../middleware/authenticate';
 import {
   getCommentsForDesign,
   createCommentForDesignController,
@@ -7,6 +8,8 @@ import {
 import { validateCommentParams, validateCommentCreate } from '../validators/comment.validator';
 
 const router = Router({ mergeParams: true });
+
+router.use(authenticate);
 
 // GET /api/designs/:designId/comments
 router.get('/', validateCommentParams, asyncHandler(getCommentsForDesign));

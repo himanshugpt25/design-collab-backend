@@ -1,14 +1,18 @@
+import http from 'http';
 import express from 'express';
 import dotenv from 'dotenv';
 import { connectDB } from './config/database';
 import { errorHandler } from './middleware/errorHandler';
 import { configureMiddleware } from './config/middleware';
 import routes from './routes';
+import { registerRealtime } from './sockets/realtime';
+import { logger } from './utils/logger';
 
 // Load environment variables
 dotenv.config();
 
 const app = express();
+const server = http.createServer(app);
 const PORT = process.env.PORT || 5000;
 
 // Configure middleware (cors, json parser, etc.)
@@ -33,14 +37,17 @@ app.use(errorHandler);
 const startServer = async () => {
   try {
     await connectDB();
-    
-    app.listen(PORT, () => {
-      console.log(`🚀 Server is running on port ${PORT}`);
-      console.log(`📝 Environment: ${process.env.NODE_ENV || 'development'}`);
-      console.log(`🔗 Health check: http://localhost:${PORT}/health`);
+
+    registerRealtime(server);
+
+    server.listen(PORT, () => {
+      logger.info('Server.started', {
+        port: PORT,
+        env: process.env.NODE_ENV || 'development',
+      });
     });
   } catch (error) {
-    console.error('Failed to start server:', error);
+    logger.error('Server.startFailure', error);
     process.exit(1);
   }
 };
@@ -48,4 +55,3 @@ const startServer = async () => {
 startServer();
 
 export default app;
-

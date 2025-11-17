@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const commentCreateSchema = z.object({
-  authorName: z.string().min(1),
+  authorName: z.string().min(1).optional(),
   text: z.string().min(1),
 });
 

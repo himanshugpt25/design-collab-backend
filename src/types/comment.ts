@@ -6,6 +6,7 @@ export interface CommentMention {
 export interface Comment {
   _id: string;
   designId: string;
+  authorId: string;
   authorName: string;
   text: string;
   mentions: CommentMention[];

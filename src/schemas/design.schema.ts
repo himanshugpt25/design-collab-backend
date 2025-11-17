@@ -52,13 +52,15 @@ export const designElementSchema = z.discriminatedUnion('type', [
   circleElementSchema,
 ]);
 
-export const designSchema = z.object({
-  name: z.string().min(1),
-  width: z.number().positive(),
-  height: z.number().positive(),
-  elements: z.array(designElementSchema),
-  thumbnailUrl: z.string().url().optional(),
-});
+export const designSchema = z
+  .object({
+    name: z.string().min(1),
+    width: z.number().positive(),
+    height: z.number().positive(),
+    elements: z.array(designElementSchema),
+    thumbnailUrl: z.string().url().optional(),
+  })
+  .strict();
 
 export const designCreateSchema = designSchema
   .pick({

@@ -7,7 +7,11 @@ import {
   updateDesign,
   deleteDesign,
 } from '../controllers/design.controller';
-import { validateDesignCreate, validateDesignListQuery } from '../validators/design.validator';
+import {
+  validateDesignCreate,
+  validateDesignListQuery,
+  validateDesignUpdate,
+} from '../validators/design.validator';
 
 const router = Router();
 
@@ -21,7 +25,7 @@ router.get('/:id', asyncHandler(getDesignById));
 router.post('/', validateDesignCreate, asyncHandler(createDesign));
 
 // PUT /api/designs/:id
-router.put('/:id', asyncHandler(updateDesign));
+router.put('/:id', validateDesignUpdate, asyncHandler(updateDesign));
 
 // DELETE /api/designs/:id
 router.delete('/:id', asyncHandler(deleteDesign));

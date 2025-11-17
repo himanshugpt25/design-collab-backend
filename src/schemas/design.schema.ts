@@ -60,5 +60,14 @@ export const designSchema = z.object({
   thumbnailUrl: z.string().url().optional(),
 });
 
+export const designCreateSchema = designSchema
+  .pick({
+    name: true,
+    width: true,
+    height: true,
+  })
+  .strict();
+
 export type DesignElementInput = z.infer<typeof designElementSchema>;
 export type DesignInput = z.infer<typeof designSchema>;
+export type DesignCreateInput = z.infer<typeof designCreateSchema>;

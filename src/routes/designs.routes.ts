@@ -7,12 +7,12 @@ import {
   updateDesign,
   deleteDesign,
 } from '../controllers/design.controller';
-import { validateDesignCreate } from '../validators/design.validator';
+import { validateDesignCreate, validateDesignListQuery } from '../validators/design.validator';
 
 const router = Router();
 
 // GET /api/designs
-router.get('/', asyncHandler(listDesigns));
+router.get('/', validateDesignListQuery, asyncHandler(listDesigns));
 
 // GET /api/designs/:id
 router.get('/:id', asyncHandler(getDesignById));

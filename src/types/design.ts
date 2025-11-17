@@ -57,3 +57,10 @@ export interface Design {
   updatedAt: string;
   thumbnailUrl?: string;
 }
+
+export interface DesignSummary {
+  _id: string;
+  name: string;
+  updatedAt: string;
+  thumbnailUrl?: string;
+}

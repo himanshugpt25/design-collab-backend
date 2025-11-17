@@ -71,3 +71,10 @@ export const designCreateSchema = designSchema
 export type DesignElementInput = z.infer<typeof designElementSchema>;
 export type DesignInput = z.infer<typeof designSchema>;
 export type DesignCreateInput = z.infer<typeof designCreateSchema>;
+
+export const designListQuerySchema = z.object({
+  limit: z.coerce.number().int().min(1).max(50).optional(),
+  offset: z.coerce.number().int().min(0).optional(),
+});
+
+export type DesignListQueryInput = z.infer<typeof designListQuerySchema>;

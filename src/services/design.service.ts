@@ -1,6 +1,6 @@
 import { DesignDocument } from '../models/Design';
-import { Design } from '../types/design';
-import { DesignCreateInput } from '../schemas/design.schema';
+import { Design, DesignSummary } from '../types/design';
+import { DesignCreateInput, DesignListQueryInput } from '../schemas/design.schema';
 import { createDesignRepository, CreateDesignPayload } from '../repositories/design.repository';
 
 const mapDesignDocument = (doc: DesignDocument): Design => ({
@@ -10,6 +10,13 @@ const mapDesignDocument = (doc: DesignDocument): Design => ({
   height: doc.height,
   elements: doc.elements,
   createdAt: doc.createdAt.toISOString(),
+  updatedAt: doc.updatedAt.toISOString(),
+  thumbnailUrl: doc.thumbnailUrl,
+});
+
+const mapDesignSummary = (doc: DesignDocument): DesignSummary => ({
+  _id: doc.id,
+  name: doc.name,
   updatedAt: doc.updatedAt.toISOString(),
   thumbnailUrl: doc.thumbnailUrl,
 });
@@ -25,9 +32,21 @@ export const createDesign = async (payload: DesignCreateInput): Promise<Design> 
   return mapDesignDocument(designDoc);
 };
 
-export const listDesigns = async (): Promise<Design[]> => {
-  const designs = await designRepository.findAll();
-  return designs.map(mapDesignDocument);
+export const listDesigns = async (query: DesignListQueryInput = {}): Promise<DesignSummary[]> => {
+  const limit = query.limit ?? 20;
+  const offset = query.offset ?? 0;
+
+  const designs = await designRepository.findAll({
+    limit,
+    offset,
+    projection: {
+      name: 1,
+      updatedAt: 1,
+      thumbnailUrl: 1,
+    },
+  });
+
+  return designs.map(mapDesignSummary);
 };
 
 export const getDesignById = async (id: string): Promise<Design | null> => {

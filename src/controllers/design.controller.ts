@@ -6,10 +6,11 @@ import {
   updateDesign as updateDesignService,
   deleteDesign as deleteDesignService,
 } from '../services/design.service';
-import { DesignCreateInput } from '../schemas/design.schema';
+import { DesignCreateInput, DesignListQueryInput } from '../schemas/design.schema';
 
-export const listDesigns = async (_req: Request, res: Response) => {
-  const designs = await listDesignsService();
+export const listDesigns = async (req: Request, res: Response) => {
+  const query = req.query as DesignListQueryInput;
+  const designs = await listDesignsService(query);
   res.status(200).json({ data: designs, error: null });
 };
 
